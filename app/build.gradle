@@ -1,0 +1,99 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "net.suntrans.building"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "net.suntrans.appmanager_${variant.versionName}_${variant.versionCode}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+
+    // Support libraries
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+
+    // Architecture components
+
+    compile "android.arch.lifecycle:runtime:$rootProject.architectureComponentsVersion"
+
+    compile "android.arch.lifecycle:extensions:$rootProject.architectureComponentsVersion"
+
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.architectureComponentsVersion"
+    compile "android.arch.persistence.room:runtime:$rootProject.architectureComponentsVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.architectureComponentsVersion"
+    compile "android.arch.persistence.room:rxjava2:$rootProject.architectureComponentsVersion"
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+
+    //okhttp
+    implementation 'com.squareup.okhttp3:okhttp:3.5.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+    //BaseRecyclerViewAdapterHelper:一个通用的Recyclerview Adapter
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+
+    //RxBinding
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    //kapt kotlin代替apt
+    kapt "android.arch.persistence.room:compiler:1.0.0"
+    kapt "com.android.databinding:compiler:2.3.2"
+    // Resolve conflicts between main and test APK:
+
+    androidTestImplementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    androidTestImplementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    androidTestImplementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    androidTestImplementation "com.android.support:design:$rootProject.supportLibraryVersion"
+
+    //kenburnsview @githube https://github.com/flavioarfaria/KenBurnsView
+    compile 'com.flaviofaria:kenburnsview:1.0.7'
+    //调试用
+    compile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    //okhttp loging intercept
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120pt"
+    android:padding="8pt"
+    android:orientation="vertical">
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:src="@drawable/demo"
+        android:layout_width="match_parent"
+        android:layout_height="72pt" />
+
+    <net.suntrans.building.widget.PercentTextView
+        android:textSize="42px"
+        android:textColor="@android:color/black"
+        android:text="办公A区"
+        android:layout_width="match_parent"
+        android:layout_height="35pt"
+        android:background="@android:color/white"
+        android:gravity="center" />
+</LinearLayout>

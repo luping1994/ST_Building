@@ -1,0 +1,69 @@
+<layout>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:context="net.suntrans.building.MainActivity">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".075" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".25" />
+
+
+        <ImageView
+            android:scaleType="center"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/mainTabColorSelected"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toBottomOf="@+id/topGuideline"
+            app:layout_constraintRight_toLeftOf="@+id/v1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            style="@style/CustomTabStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/topGuideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/v1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@android:color/transparent"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed">
+
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/topGuideline">
+
+        </android.support.v4.view.ViewPager>
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -21,5 +21,5 @@ class AnalysisFragment : BasedFragment(){
         return binding.root
 
     }
-    
+
 }

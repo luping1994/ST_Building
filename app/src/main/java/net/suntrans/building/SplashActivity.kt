@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
@@ -109,10 +110,19 @@ class SplashActivity : BasedActivity() {
 
     private fun jumpToMain() {
         mHandler!!.postDelayed({
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            finish()
+           val token = App.getSharedPreferences().getString("access_token","")
+            if (TextUtils.isEmpty(token)){
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
+            }else{
+                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
+            }
+
 
         }, 800)
     }

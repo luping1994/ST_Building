@@ -1,18 +1,19 @@
 <layout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg_color"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <TextView
-            android:text="智能控制"
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center" />
 
-    </LinearLayout>
+    </FrameLayout>
 </layout>

@@ -1,6 +1,10 @@
 package net.suntrans.building.api;
 
+import net.suntrans.building.domin.CameraHi;
 import net.suntrans.building.domin.LoginResult;
+import net.suntrans.building.vedio.camhi.MyCamera;
+
+import java.util.List;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
@@ -31,5 +35,8 @@ public interface Api {
                                 @Field("client_secret") String client_secret,
                                 @Field("username") String username,
                                 @Field("password") String password);
+
+    @POST("ScreenShow/camhi")
+    Flowable<List<CameraHi>> getCamHiList();
 
 }

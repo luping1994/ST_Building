@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120pt"
-    android:padding="8pt"
+    android:layout_height="120dp"
     android:orientation="vertical">
 
-    <ImageView
-        android:scaleType="fitXY"
-        android:src="@drawable/demo"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="72pt" />
+        android:layout_height="0dp"
+        android:layout_weight="9">
+
+        <ImageView
+            android:background="@color/white"
+            android:src="@drawable/noimg"
+            android:id="@+id/snapshot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            />
+
+        <net.suntrans.building.widget.PercentTextView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="连接中"
+            android:textColor="#ff0000"
+            android:textSize="21px" />
+    </RelativeLayout>
+
 
     <net.suntrans.building.widget.PercentTextView
-        android:textSize="42px"
-        android:textColor="@android:color/black"
-        android:text="办公A区"
+        android:id="@+id/name1"
         android:layout_width="match_parent"
-        android:layout_height="35pt"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:background="@android:color/white"
-        android:gravity="center" />
+        android:gravity="center"
+        android:text="办公A区"
+        android:textColor="@android:color/black"
+        android:textSize="42px" />
 </LinearLayout>

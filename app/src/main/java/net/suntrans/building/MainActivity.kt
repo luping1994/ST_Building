@@ -4,13 +4,17 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
+import android.util.DisplayMetrics
 import android.widget.ImageView
 import android.widget.TextView
+import com.hichip.base.HiLog
+import com.hichip.sdk.HiChipSDK
 import net.suntrans.building.adapter.FragmentAdapter
 import net.suntrans.building.databinding.ActivityMainBinding
 import net.suntrans.building.analysis.AnalysisFragment
 import net.suntrans.building.control.SmartControlFragment
 import net.suntrans.building.vedio.VedioFragment
+import net.suntrans.building.vedio.camhi.HiDataValue
 
 
 class MainActivity : BasedActivity() {
@@ -27,10 +31,20 @@ class MainActivity : BasedActivity() {
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         setTabAndViewpager()
+        val metric = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(metric)
+        val logoPadding =  metric.widthPixels/35
+        binding!!.logo.setPadding(logoPadding,logoPadding,logoPadding,logoPadding)
+
+       var s:Long  = Runtime.getRuntime().maxMemory()
+        s = s/1024/1024
+        println("$s mb")
 
     }
 
     private fun setTabAndViewpager() {
+
+        initSDK()
 
         for (i in TAB_TITLES.indices) {
             val tab = binding!!.tabLayout.newTab()
@@ -52,6 +66,7 @@ class MainActivity : BasedActivity() {
         adapter.addFragment(smartControlFragment, TAG_CONTROL)
         adapter.addFragment(analysisFragment, TAG_ANALYSIS)
         binding!!.viewPager.adapter = adapter
+        binding!!.viewPager.offscreenPageLimit =3
         binding!!.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -81,5 +96,32 @@ class MainActivity : BasedActivity() {
         })
     }
 
+    // 初始化SDK
+    private fun initSDK() {
+        HiChipSDK.init(object : HiChipSDK.HiChipInitCallback {
 
+            override fun onSuccess() {
+
+            }
+
+            override fun onFali(arg0: Int, arg1: Int) {
+
+            }
+        })
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        for (camera in HiDataValue.CameraList) {
+            // camera.registerIOSessionListener(MainActivity.this);
+
+            camera.disconnect()
+        }
+
+        HiChipSDK.uninit()
+
+        val pid = android.os.Process.myPid()
+        android.os.Process.killProcess(pid)
+    }
 }

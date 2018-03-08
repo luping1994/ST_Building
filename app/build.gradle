@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "net.suntrans.building"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -29,17 +29,21 @@ android {
             outputFileName = "net.suntrans.appmanager_${variant.versionName}_${variant.versionCode}.apk"
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
 
     // Support libraries
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
@@ -47,15 +51,13 @@ dependencies {
     implementation "com.android.support:design:$rootProject.supportLibraryVersion"
 
     // Architecture components
-
     compile "android.arch.lifecycle:runtime:$rootProject.architectureComponentsVersion"
-
     compile "android.arch.lifecycle:extensions:$rootProject.architectureComponentsVersion"
-
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.architectureComponentsVersion"
     compile "android.arch.persistence.room:runtime:$rootProject.architectureComponentsVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.architectureComponentsVersion"
     compile "android.arch.persistence.room:rxjava2:$rootProject.architectureComponentsVersion"
+
     // RxJava
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
@@ -81,8 +83,8 @@ dependencies {
     //kapt kotlin代替apt
     kapt "android.arch.persistence.room:compiler:1.0.0"
     kapt "com.android.databinding:compiler:2.3.2"
-    // Resolve conflicts between main and test APK:
 
+    // Resolve conflicts between main and test APK:
     androidTestImplementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
     androidTestImplementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     androidTestImplementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
@@ -90,10 +92,21 @@ dependencies {
 
     //kenburnsview @githube https://github.com/flavioarfaria/KenBurnsView
     compile 'com.flaviofaria:kenburnsview:1.0.7'
+
     //调试用
     compile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
     //okhttp loging intercept
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    //camHi
+    implementation files('libs/HiPhotoView.jar')
+    implementation files('libs/hisdk.jar')
+    implementation files('libs/jg_filter_sdk_1.1.jar')
+    implementation files('libs/mid-core-sdk-3.7.2.jar')
+    implementation files('libs/org.apache.http.legacy.jar')
+    implementation files('libs/zxing.jar')
+    implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')
 }

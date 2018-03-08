@@ -10,7 +10,7 @@ import io.reactivex.disposables.CompositeDisposable
  */
 
 open class BasedFragment : Fragment() {
-    private val mDisposable = CompositeDisposable()
+    protected val mDisposable = CompositeDisposable()
 
     override fun onStop() {
         super.onStop()

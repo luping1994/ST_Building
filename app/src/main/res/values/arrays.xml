@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="connect_state">
+        <item>未连接</item>
+        <item>连接中&#8230;</item>
+        <item>连接中&#8230;</item>
+        <item>密码错误</item>
+        <item>在线</item>
+    </string-array>
+</resources>

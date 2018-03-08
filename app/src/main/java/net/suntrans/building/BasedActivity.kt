@@ -7,13 +7,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import io.reactivex.disposables.CompositeDisposable
 import net.suntrans.building.utils.StatusBarCompat
 
 /**
  * Created by Looney on 2018/1/23.
  * Des:
  */
- open  class BasedActivity : AppCompatActivity() {
+open class BasedActivity : AppCompatActivity() {
+    protected val mDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,11 @@ import net.suntrans.building.utils.StatusBarCompat
 
     fun navigate(activity: Context, toActivity: Class<*>) {
         activity.startActivity(Intent(activity, toActivity))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mDisposable.clear()
     }
 
 }

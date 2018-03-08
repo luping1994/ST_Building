@@ -31,6 +31,7 @@
 
         </activity>
         <activity android:name=".vedio.camhi.LiveViewActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".control.AreaPlanActivity" />
 
     </application>
 

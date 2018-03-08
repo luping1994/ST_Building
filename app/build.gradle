@@ -109,4 +109,8 @@ dependencies {
     implementation files('libs/org.apache.http.legacy.jar')
     implementation files('libs/zxing.jar')
     implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')
+
+    //mpandroid chart
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
 }

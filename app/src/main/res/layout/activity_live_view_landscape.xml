@@ -1,16 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/live_view_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false"
+    android:fitsSystemWindows="true"
     android:background="@android:color/white"
     android:clickable="true" >
 
    <FrameLayout
        android:id="@+id/root"
        android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_height="200dp">
        <net.suntrans.building.widget.MyLiveViewGLMonitor
            android:id="@+id/monitor_live_view"
            android:layout_width="match_parent"
@@ -316,6 +316,17 @@
                android:textStyle="bold"
                android:visibility="gone" />
        </RelativeLayout>
-   </FrameLayout>
 
-</FrameLayout>
+
+   </FrameLayout>
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:src="@drawable/stop_"
+        android:layout_centerHorizontal="true"
+        android:text="退出"
+        android:gravity="center_horizontal"
+        android:id="@+id/exit"
+        android:layout_below="@id/root"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+</RelativeLayout>

@@ -9,7 +9,15 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
+        <android.support.v7.widget.RecyclerView
+            app:layoutManager="LinearLayoutManager"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
         <WebView
+            android:visibility="gone"
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

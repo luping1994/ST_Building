@@ -195,6 +195,16 @@ public class LiveViewActivity extends HiActivity
 		// ��ʼ����
 		mCamera.setLiveShowMonitor(mMonitor);
 
+		ImageView stop = findViewById(R.id.exit);
+		stop.getLayoutParams().width = metrics.widthPixels/3;
+		stop.getLayoutParams().height = metrics.widthPixels/3;
+		stop.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
+
 		btn_live_exit = (ImageView) findViewById(R.id.btn_live_exit);
 		btn_live_exit.setOnClickListener(this);
 

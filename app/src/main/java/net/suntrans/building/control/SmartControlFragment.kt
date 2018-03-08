@@ -1,21 +1,23 @@
 package net.suntrans.building.control
 
-import android.content.DialogInterface
-import android.content.Intent.getIntent
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.JavascriptInterface
-import android.webkit.WebSettings
 import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.widget.ImageView
+import android.widget.TextView
 import net.suntrans.building.App
 import net.suntrans.building.BasedFragment
 import net.suntrans.building.R
 import net.suntrans.building.databinding.FragmentControlBinding
+import net.suntrans.building.domin.MyArea
+import net.suntrans.building.vedio.camhi.HiDataValue
+import net.suntrans.building.widget.PercentTextView
 
 /**
  * Created by Looney on 2018/2/6.
@@ -27,100 +29,145 @@ class SmartControlFragment : BasedFragment() {
     private var webview: WebView? = null
     private var house_id: String? = null
     private var token: String? = null
+
+    private var binding: FragmentControlBinding? = null
+
+
+    //recyclerView Item的高度
+    private var itemHeight: Int = 0
+    private var itemWidth: Int = 0
+    private var itemPadding: Int = 0
+    private var itemPaddingTop: Int = 0
+
+    //区域数据集合
+    private val datas: MutableList<MyArea> = ArrayList()
+
+    //recyclerview Adapter
+
+    private var adapter: AreaAdapter1? = null
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = DataBindingUtil.inflate<FragmentControlBinding>(inflater, R.layout.fragment_control, container, false)
-        return binding.root
+        binding = DataBindingUtil.inflate<FragmentControlBinding>(inflater, R.layout.fragment_control, container, false)
+        return binding!!.root
 
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        house_id ="1"
+        house_id = "1"
         token = "Bearer " + App.getSharedPreferences().getString("access_token", "-1")
         webview = view!!.findViewById(R.id.webView) as WebView
-        setUpWebview(webview!!)
 
-        webview!!.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
+        getItemHeightByPercent()
 
-            override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
-                loadJs()
-            }
-        }
-
-
-        webview!!.loadUrl("file:///android_asset/SuntransDemo/floor_plan.html")
-        webview!!.addJavascriptInterface(AndroidtoJs(), "control")
-    }
-
-    private fun setUpWebview(webview: WebView) {
-        val settings = webview.settings
-        settings.javaScriptCanOpenWindowsAutomatically = true
-        settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
-        settings.setGeolocationEnabled(true)
-        settings.loadWithOverviewMode = true
-        settings.useWideViewPort = true
-        settings.builtInZoomControls = true
-        settings.displayZoomControls = false
-
-        webview.setInitialScale(0)
-        webview.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-        webview.webViewClient = WebViewClient()
-        webview.isVerticalScrollBarEnabled = false
-
-        val localWebSettings = webview.settings
-        localWebSettings.javaScriptEnabled = true
-        localWebSettings.javaScriptCanOpenWindowsAutomatically = true
-        localWebSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL
-
-        webview.isHorizontalScrollBarEnabled = false//水平不显示
-
+        getAreaData()
+        adapter = AreaAdapter1(R.layout.item_area, datas)
+        binding!!.recyclerView.adapter =adapter
 
     }
 
-    private fun loadJs() {
-        var js = ""
-        js += "var newscript = document.createElement(\"script\");"
-        js += "newscript.src=\"./js/designer.js\";"
-        js += ("newscript.onload=function(){"
-                + "init(\""
-                + token + "\",\""
-                + house_id + "\");};")
-        js += "document.body.appendChild(newscript);"
+    private fun getAreaData() {
 
-        //                System.out.println(js);
-        webview!!.loadUrl("javascript:$js")
+        var area1  = MyArea()
+        area1.id="1"
+        area1.name="展厅"
+        area1.imgResId =R.drawable.temp
+
+        datas.add(area1)
+
+        var area2  = MyArea()
+        area2.id="2"
+        area2.name="会议室"
+        area2.imgResId =R.drawable.temp
+
+        datas.add(area2)
+
+        var area3  = MyArea()
+        area3.id="3"
+        area3.name="员工区"
+        area3.imgResId =R.drawable.temp
+
+        datas.add(area3)
+
     }
 
-    // 继承自Object类
-    inner class AndroidtoJs : Any() {
+    //通过屏幕尺寸的百分比设置
+    private fun getItemHeightByPercent() {
+        //获取屏幕宽度
+        val metric = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(metric)
 
-        // 定义JS需要调用的方法
-        // 被JS调用的方法必须加入@JavascriptInterface注解
-        @JavascriptInterface
-        fun switchChannel(control: String) {
-            val split = control.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val channel_id = split[0]
-            val title = split[1]
-            val status = if (split[2] == "1") "关闭" else "打开"
-            val datapoint = split[3]
-            val din = split[4]
-            //            System.out.println(datapoint + "," + din);
-            AlertDialog.Builder(activity)
-                    .setMessage("是否$status$title")
-                    .setPositiveButton("确定") { dialog, which ->
-                        val cmd = if (status == "打开") "1" else "0"
-//                        sendCmd(channel_id, datapoint, din, cmd)
-                    }
-                    .setNegativeButton("取消", null).create().show()
-        }
+        itemWidth = metric.widthPixels
+        itemHeight = (metric.widthPixels.toFloat() * 12 / 16).toInt()
+        itemPadding = itemWidth / 25
+        itemPaddingTop = itemWidth / 15
+//        println("item高度为$itemHeight,屏幕宽度为${metric.widthPixels}")
+        //给recyclerview动态设置一个paddingbottom
+        binding!!.recyclerView.setPadding(0, 0, 0, itemPaddingTop)
     }
+
 
     override fun onDestroy() {
         webview!!.destroy()
         super.onDestroy()
+    }
+
+
+    //RecyclerView adapter
+    private inner class AreaAdapter1(layoutResId: Int, data: MutableList<MyArea>) : RecyclerView.Adapter<VH>() {
+        private val resId = layoutResId
+        private val cameraLists = data
+
+        init {
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH {
+            val view = LayoutInflater.from(activity.applicationContext)
+                    .inflate(resId, parent, false)
+            view.layoutParams.height = itemHeight
+            view.layoutParams.width = itemWidth
+            view.setPadding(itemPadding, itemPaddingTop, itemPadding, 0)
+
+           var name1 =  view.findViewById<PercentTextView>(R.id.name1)
+            name1.layoutParams.height = itemHeight/3
+            name1.layoutParams.width = itemWidth/2
+            return VH(view)
+        }
+
+        override fun getItemCount(): Int {
+
+            return datas!!.size
+        }
+
+        override fun onBindViewHolder(holder: VH?, position: Int) {
+
+            holder!!.setData(position)
+
+        }
+
+    }
+
+    //ViewHolder
+    private inner class VH(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+
+        var name: TextView? = null
+        var image: ImageView? = null
+
+        init {
+            name = itemView!!.findViewById(R.id.name1)
+            image = itemView!!.findViewById(R.id.snapshot)
+            itemView.setOnClickListener {
+
+                var intent = Intent(activity,AreaPlanActivity::class.java)
+                intent.putExtra("title",datas[adapterPosition].name)
+                intent.putExtra("house_id",datas[adapterPosition].id)
+                startActivity(intent)
+            }
+        }
+
+        fun setData(position: Int) {
+            name!!.text = datas[position].name
+            image!!.setImageResource(datas[position].imgResId)
+        }
     }
 }

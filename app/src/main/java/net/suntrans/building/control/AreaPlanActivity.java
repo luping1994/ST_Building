@@ -8,7 +8,9 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +18,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +29,9 @@ import net.suntrans.building.api.Api;
 import net.suntrans.building.api.RetrofitHelper;
 import net.suntrans.building.utils.LogUtil;
 import net.suntrans.building.utils.UiUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -61,11 +67,18 @@ public class AreaPlanActivity extends BasedActivity {
         setContentView(R.layout.activity_plan);
 //        StatusBarCompat.compat(findViewById(R.id.root));
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int logoPadding = metrics.widthPixels / 25;
+
+        ImageView logo = findViewById(R.id.logo);
+        logo.setPadding(logoPadding,logoPadding,logoPadding,logoPadding);
+
         toolbar = (RelativeLayout) findViewById(R.id.toolbar);
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(getIntent().getStringExtra("title"));
 
-        findViewById(R.id.fanhui).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.logo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -147,24 +160,26 @@ public class AreaPlanActivity extends BasedActivity {
         // 定义JS需要调用的方法
         // 被JS调用的方法必须加入@JavascriptInterface注解
         @JavascriptInterface
-        public void switchChannel(String control) {
-            String[] split = control.split(",");
-            final String channel_id = split[0];
-            String title = split[1];
-            final String status = split[2].equals("true") ? "关闭" : "打开";
-            final String datapoint = split[3];
-            final String din = split[4];
-//            System.out.println(datapoint + "," + din);
-            new AlertDialog.Builder(AreaPlanActivity.this)
-                    .setMessage("是否" + status + title)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String cmd = status.equals("打开") ? "1" : "0";
-                            sendCmd(channel_id, datapoint, din, cmd);
-                        }
-                    })
-                    .setNegativeButton("取消", null).create().show();
+        public void alert(String msg1) {
+            try {
+                JSONObject jsonObject = new JSONObject(msg1);
+                String code = jsonObject.getString("code");
+                String msg = jsonObject.getString("msg");
+                String device = jsonObject.getString("device");
+
+                if (code.equals("404")) {
+                    UiUtils.showToast(msg);
+
+                } else if (code.equals("101")) {
+                    UiUtils.showToast(msg);
+
+                } else if (code.equals("403")) {
+                    UiUtils.showToast("设备不在线");
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -272,6 +287,7 @@ public class AreaPlanActivity extends BasedActivity {
         mCurrentOrient = orientaion;
 
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

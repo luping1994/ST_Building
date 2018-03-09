@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff6141</color>
-    <color name="colorPrimaryDark">#ff6141</color>
-    <color name="colorAccent">#ff6141</color>
+    <color name="colorPrimary">#ff6929</color>
+    <color name="colorPrimaryDark">#ff6929</color>
+    <color name="colorAccent">#ff6929</color>
     <color name="bgColor">#f1f3f8</color>
     <color name="secondtextcolor">#c3c3c3</color>
 
-    <color name="mainTabColorSelected">#ff6141</color>
-    <color name="mainTabColorUnSelected">#888888</color>
+    <color name="mainTabColorSelected">#ff6929</color>
+    <color name="mainTabColorUnSelected">#ffccbc</color>
 
     <color name="devisionColor">#f2f2f2</color>
     <color name="bg_color">#f5f5f5</color>

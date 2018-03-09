@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
@@ -15,7 +17,7 @@ import net.suntrans.building.utils.UiUtils;
  * Des:
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     public static SharedPreferences getSharedPreferences() {
         if (sharedPreferences == null) {
@@ -44,5 +46,12 @@ public class App extends Application {
         LeakCanary.install(this);
         Stetho.initializeWithDefaults(this);
     }
-
+    /**
+     * 分割 Dex 支持 * @param base
+     */
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

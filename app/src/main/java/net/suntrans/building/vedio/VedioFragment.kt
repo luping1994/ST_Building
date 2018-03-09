@@ -35,6 +35,7 @@ import net.suntrans.building.BasedFragment
 import net.suntrans.building.R
 import net.suntrans.building.api.RetrofitHelper
 import net.suntrans.building.databinding.FragmentVedioBinding
+import net.suntrans.building.utils.UiUtils
 import net.suntrans.building.vedio.camhi.*
 import java.io.File
 import java.io.FileInputStream
@@ -184,6 +185,7 @@ class VedioFragment : BasedFragment(), ICameraIOSessionCallback {
 
                     cameraAdapter!!.notifyDataSetChanged()
                 } else {
+                    UiUtils.showToast("请稍后,设备连接中...")
                     selectedCamera.connect()
                 }
             }

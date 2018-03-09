@@ -11,9 +11,11 @@ android {
         applicationId "net.suntrans.building"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true//这行
+
     }
     dataBinding {
         enabled = true
@@ -112,5 +114,10 @@ dependencies {
 
     //mpandroid chart
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+    //
+    implementation 'com.pgyersdk:sdk:2.7.9'
+    implementation 'com.android.support:multidex:1.0.0'
+
 
 }

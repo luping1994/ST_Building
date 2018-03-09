@@ -68,23 +68,23 @@ class SmartControlFragment : BasedFragment() {
     private fun getAreaData() {
 
         var area1  = MyArea()
-        area1.id="1"
+        area1.id="3"
         area1.name="展厅"
-        area1.imgResId =R.drawable.temp
+        area1.imgResId =R.drawable.zhanting
 
         datas.add(area1)
 
         var area2  = MyArea()
-        area2.id="2"
+        area2.id="3"
         area2.name="会议室"
-        area2.imgResId =R.drawable.temp
+        area2.imgResId =R.drawable.huiyishi
 
         datas.add(area2)
 
         var area3  = MyArea()
         area3.id="3"
         area3.name="员工区"
-        area3.imgResId =R.drawable.temp
+        area3.imgResId =R.drawable.yuangong
 
         datas.add(area3)
 
@@ -97,7 +97,7 @@ class SmartControlFragment : BasedFragment() {
         activity.windowManager.defaultDisplay.getMetrics(metric)
 
         itemWidth = metric.widthPixels
-        itemHeight = (metric.widthPixels.toFloat() * 12 / 16).toInt()
+        itemHeight = (metric.widthPixels.toFloat() * 9 / 16).toInt()
         itemPadding = itemWidth / 25
         itemPaddingTop = itemWidth / 15
 //        println("item高度为$itemHeight,屏幕宽度为${metric.widthPixels}")

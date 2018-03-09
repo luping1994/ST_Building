@@ -37,6 +37,7 @@ class LoginActivity : BasedActivity() {
                 UiUtils.showToast(getString(R.string.tips_error))
                 return@setOnClickListener
             }
+
             isLogining = true
             mDisposable.addAll(RetrofitHelper.getLoginApi()
                     .login("password", "1", "559eb687a4fcafdabe991c320172fcc9", account, password)

@@ -44,7 +44,7 @@ function openConfirmDialog(d) {
 
 function sendCommand(d) {
 //    console.log('channel_id为：' + d.channel_id);
-    control.switchChannel(d.channel_id + "," + d.title + "," + d.status + "," + d.datapoint + "," + d.din);
+    switchChannel(d.vtype,d.status,d.channel_id);
 }
 
 //加载容器属性和元件
@@ -67,81 +67,38 @@ function init(token, house_id) {
 
 function refreshContainerByToken(token, house_id) {
     $.ajax({
-        url: 'http://dcw.suntrans-cloud.com/api/v1/plan',
-        type: 'GET',
-        data: {'house_id': house_id},
-        dataType: "json",
-        success: function (json) {
-            // setPlan1Data(json);
-            var bgImage = "";
-            if (floor == 1) {
-                bgImage = "img/floor1.png";
-            }else if (floor==2){
-                bgImage = "img/floor2.png";
-
-            }else if (floor == 3){
-                bgImage = "img/floor3.png";
-
-            }else {
-                bgImage = "img/floor3.png";
-
-            }
-            var con = json.data.container;
-            if (con) {
-                var width = 1309;
-                var height = 693;
-               var  scale = $("body").width() / width;
-                $("div.full-wrapper").css("height", height * scale);
-                $("svg.designer").css("transform", "scale(" + scale + ")");
-                $("svg.designer").css("width", width);
-                $("svg.designer").css("height", height);
-                $("svg.designer").css("background-color", "#000000");
-                $("svg.designer").css("background-image", "url(" + bgImage+ ")");
-                $("svg.designer").empty();
-                $("body").css("background-color", "#000000");
-            }
-
-            json.data.elements.map(createElement);
-        }
-    });
-}
-
-//初始化容器
-function initContainerByToken(token, house_id) {
-    $.ajax({
-        url: 'http://dcw.suntrans-cloud.com/api/v1/plan',
-        type: 'GET',
-        data: {'house_id': house_id},
+        url: 'http://smarthome.suntrans.net/api.php/ScreenShow/plan',
+        type: 'POST',
+        data: {'area_id': house_id},
 
         dataType: "json",
         success: function (json) {
             // setPlan1Data(json);
             var bgImage = "";
-            if (floor == '1') {
-                bgImage = "img/floor1.png";
-            }else if (floor=='2'){
+            if (floor == '3') {
+                bgImage = "img/zhanting.png";
+            }else if (floor=='4'){
                 bgImage = "img/floor2.png";
 
-            }else if (floor == '3'){
+            }else if (floor == '5'){
                 bgImage = "img/floor3.png";
-
             }else {
                 bgImage = "img/floor3.png";
 
             }
-            var con = json.data.container;
+            var con = json.container;
             if (con) {
-                var width = 1309;
-                var height = 693;
+                var width = 1080;
+                var height = 1692;
                 scale = $("body").width() / width;
                 $("div.full-wrapper").css("height", height * scale);
                 $("svg.designer").css("transform", "scale(" + scale + ")");
                 $("svg.designer").css("width", width);
                 $("svg.designer").css("height", height);
-                $("svg.designer").css("background-color", "#000000");
+                $("svg.designer").css("background-color", "#ffffff");
                 $("svg.designer").css("background-image", "url(" + bgImage+ ")");
                 $("svg.designer").empty();
-                $("body").css("background-color", "#000000");
+                $("body").css("background-color", "#ffffff");
             }
             // json.signals.map(function(signal){
             //  if(signal){
@@ -149,7 +106,54 @@ function initContainerByToken(token, house_id) {
             //  }
             // });
 
-            json.data.elements.map(createElement);
+            json.elements.map(createElement);
+        }
+    });
+}
+
+//初始化容器
+function initContainerByToken(token, house_id) {
+    $.ajax({
+        url: 'http://smarthome.suntrans.net/api.php/ScreenShow/plan',
+        type: 'POST',
+        data: {'area_id': house_id},
+
+        dataType: "json",
+        success: function (json) {
+            // setPlan1Data(json);
+            var bgImage = "";
+            if (floor == '3') {
+                bgImage = "img/zhanting.png";
+            }else if (floor=='4'){
+                bgImage = "img/floor2.png";
+
+            }else if (floor == '5'){
+                bgImage = "img/floor3.png";
+            }else {
+                bgImage = "img/floor3.png";
+
+            }
+            var con = json.container;
+            if (con) {
+                var width = 1080;
+                var height = 1692;
+                scale = $("body").width() / width;
+                $("div.full-wrapper").css("height", height * scale);
+                $("svg.designer").css("transform", "scale(" + scale + ")");
+                $("svg.designer").css("width", width);
+                $("svg.designer").css("height", height);
+                $("svg.designer").css("background-color", "#ffffff");
+                $("svg.designer").css("background-image", "url(" + bgImage+ ")");
+                $("svg.designer").empty();
+                $("body").css("background-color", "#ffffff");
+            }
+            // json.signals.map(function(signal){
+            //  if(signal){
+            // 	 signalMap[''+signal.id]=signal;
+            //  }
+            // });
+
+            json.elements.map(createElement);
         }
     });
 }
@@ -177,41 +181,26 @@ function createImage(data) {
     imageGroup.append("image")
         .classed("control-image", true)
         .attr("x", function (d) {
-            return d.x - 552
+            return d.x
         })
         .attr("y", function (d) {
-            return d.y - 106
+            return d.y - 228
         })
         .attr("width", function (d) {
-            if (d.vtype == 1) {
-                return 30
+            return d.w;
 
-            } else {
-                return 15
-
-            }
         })
         .attr("height", function (d) {
-            if (d.vtype == 1) {
-                return 30
-
-            } else {
-                return 15
-
-            }
+            return d.h;
         })
         .attr("xlink:href", function (d) {
-            if (d.status) {
-                if (d.vtype == 1)
-                    return 'img/light_on.png';
-                else
-                    return 'img/socket_on.png';
+            if (d.status==1) {
+                    return d.openUrl;
 
             } else {
-                if (d.vtype == 1)
-                    return 'img/light_off.png';
-                else
-                    return 'img/socket_off.png';
+                return d.closeUrl;
+
+
             }
         });
     imageGroup.on("click", openConfirmDialog);

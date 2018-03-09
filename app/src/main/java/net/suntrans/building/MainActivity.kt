@@ -9,12 +9,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.hichip.base.HiLog
 import com.hichip.sdk.HiChipSDK
+import com.pgyersdk.Pgy
+import com.pgyersdk.update.PgyUpdateManager
+import net.suntrans.building.BuildConfig.DEBUG
 import net.suntrans.building.adapter.FragmentAdapter
 import net.suntrans.building.databinding.ActivityMainBinding
 import net.suntrans.building.analysis.AnalysisFragment
 import net.suntrans.building.control.SmartControlFragment
 import net.suntrans.building.vedio.VedioFragment
 import net.suntrans.building.vedio.camhi.HiDataValue
+import net.suntrans.building.widget.PercentTextView
 
 
 class MainActivity : BasedActivity() {
@@ -33,13 +37,15 @@ class MainActivity : BasedActivity() {
         setTabAndViewpager()
         val metric = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metric)
-        val logoPadding =  metric.widthPixels/35
-        binding!!.logo.setPadding(logoPadding,logoPadding,logoPadding,logoPadding)
+        val logoPadding = metric.widthPixels / 35
+        binding!!.logo.setPadding(logoPadding, logoPadding, logoPadding, logoPadding)
 
-       var s:Long  = Runtime.getRuntime().maxMemory()
-        s = s/1024/1024
+        var s: Long = Runtime.getRuntime().maxMemory()
+        s = s / 1024 / 1024
         println("$s mb")
 
+        if (DEBUG)
+            PgyUpdateManager.register(this, "net.suntrans.building.fileProvider")
     }
 
     private fun setTabAndViewpager() {
@@ -50,7 +56,7 @@ class MainActivity : BasedActivity() {
             val tab = binding!!.tabLayout.newTab()
             val view = layoutInflater!!.inflate(R.layout.tab, null, false)
             val image = view.findViewById<ImageView>(R.id.img_tab)
-            val tv = view.findViewById<TextView>(R.id.tv_tab)
+            val tv = view.findViewById<PercentTextView>(R.id.tv_tab)
             tv.setText(TAB_TITLES[i])
             image.setImageResource(TAB_IMGS[i])
             tab.customView = view
@@ -66,7 +72,7 @@ class MainActivity : BasedActivity() {
         adapter.addFragment(smartControlFragment, TAG_CONTROL)
         adapter.addFragment(analysisFragment, TAG_ANALYSIS)
         binding!!.viewPager.adapter = adapter
-        binding!!.viewPager.offscreenPageLimit =3
+        binding!!.viewPager.offscreenPageLimit = 3
         binding!!.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 

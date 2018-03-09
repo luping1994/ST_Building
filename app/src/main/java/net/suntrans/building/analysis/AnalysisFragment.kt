@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +33,16 @@ class AnalysisFragment : BasedFragment(){
     protected var mTfRegular: Typeface?=null
     protected var mTfLight: Typeface?=null
     var binding:FragmentAnalysisBinding? = null
+
+    private var itemHeight: Int = 0
+    private var itemWidth: Int = 0
+    private var itemPadding: Int = 0
+    private var itemPaddingTop: Int = 0
+
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<FragmentAnalysisBinding>(inflater, R.layout.fragment_analysis, container, false)
+
         return binding!!.root
 
     }
@@ -45,9 +54,31 @@ class AnalysisFragment : BasedFragment(){
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         mTfRegular = Typeface.createFromAsset(context.assets, "OpenSans-Regular.ttf")
         mTfLight = Typeface.createFromAsset(context.assets, "OpenSans-Light.ttf")
+        getItemHeightByPercent()
+
         initChart1()
         initChart2()
+
     }
+
+    //通过屏幕尺寸的百分比设置
+    private fun getItemHeightByPercent() {
+        //获取屏幕宽度
+        val metric = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(metric)
+
+        itemWidth = metric.widthPixels
+        itemHeight = (metric.widthPixels.toFloat() * 9 / 16).toInt()
+        itemPadding = itemWidth / 25
+        itemPaddingTop = itemWidth / 15
+//        println("item高度为$itemHeight,屏幕宽度为${metric.widthPixels}")
+        //给recyclerview动态设置一个paddingbottom
+        binding!!.chart1.setPadding(0, 0, 0, itemPaddingTop)
+        binding!!.chart2.setPadding(0, 0, 0, itemPaddingTop)
+        binding!!.chart1.layoutParams.height = itemHeight
+        binding!!.chart2.layoutParams.height = itemHeight
+    }
+
 
     private fun initChart2() {
 

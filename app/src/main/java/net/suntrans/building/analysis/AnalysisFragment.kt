@@ -11,6 +11,9 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -59,7 +62,42 @@ class AnalysisFragment : BasedFragment(){
         initChart1()
         initChart2()
 
+        //
+
+//        setUpWebview(binding!!.webView)
+//        binding!!.webView.loadUrl("http://172.16.1.187:8080/SuntransDemo/energy.html?_ijt=5eqbvnlek33ol4erguuj758a1i")
+
     }
+
+    private fun setUpWebview(webview: WebView) {
+        val settings = webview.settings
+
+        settings.javaScriptCanOpenWindowsAutomatically = true
+        settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+        settings.setGeolocationEnabled(true)
+        settings.loadWithOverviewMode = true
+        settings.useWideViewPort = true
+        settings.builtInZoomControls = true
+        settings.displayZoomControls = false
+
+        webview.setInitialScale(0)
+        webview.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+        webview.webViewClient = WebViewClient()
+        webview.isVerticalScrollBarEnabled = false
+
+        val localWebSettings = webview.settings
+        localWebSettings.javaScriptEnabled = true
+        localWebSettings.javaScriptCanOpenWindowsAutomatically = true
+        localWebSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL
+
+        webview.isHorizontalScrollBarEnabled = false//水平不显示
+
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 
     //通过屏幕尺寸的百分比设置
     private fun getItemHeightByPercent() {
@@ -83,29 +121,29 @@ class AnalysisFragment : BasedFragment(){
     private fun initChart2() {
 
         binding!!.chart2.setUsePercentValues(true)
-        binding!!.chart2.getDescription().setEnabled(false)
+        binding!!.chart2.description.isEnabled = false
         binding!!.chart2.setExtraOffsets(5f, 10f, 5f, 5f)
 
-        binding!!.chart2.setDragDecelerationFrictionCoef(0.95f)
+        binding!!.chart2.dragDecelerationFrictionCoef = 0.95f
 
         binding!!.chart2.setCenterTextTypeface(mTfLight)
-        binding!!.chart2.setCenterText(generateCenterSpannableText())
+        binding!!.chart2.centerText = generateCenterSpannableText()
 
-        binding!!.chart2.setDrawHoleEnabled(true)
+        binding!!.chart2.isDrawHoleEnabled = true
         binding!!.chart2.setHoleColor(Color.WHITE)
 
         binding!!.chart2.setTransparentCircleColor(Color.WHITE)
         binding!!.chart2.setTransparentCircleAlpha(110)
 
-        binding!!.chart2.setHoleRadius(58f)
-        binding!!.chart2.setTransparentCircleRadius(61f)
+        binding!!.chart2.holeRadius = 58f
+        binding!!.chart2.transparentCircleRadius = 61f
 
         binding!!.chart2.setDrawCenterText(true)
 
-        binding!!.chart2.setRotationAngle(0f)
+        binding!!.chart2.rotationAngle = 0f
         // enable rotation of the chart by touch
-        binding!!.chart2.setRotationEnabled(true)
-        binding!!.chart2.setHighlightPerTapEnabled(true)
+        binding!!.chart2.isRotationEnabled = true
+        binding!!.chart2.isHighlightPerTapEnabled = true
 
         // binding!!.chart2.setUnit(" €");
         // binding!!.chart2.setDrawUnitsInChart(true);

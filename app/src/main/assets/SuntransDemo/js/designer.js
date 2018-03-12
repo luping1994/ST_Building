@@ -75,16 +75,13 @@ function refreshContainerByToken(token, house_id) {
         success: function (json) {
             // setPlan1Data(json);
             var bgImage = "";
-            if (floor == '3') {
-                bgImage = "img/zhanting.png";
-            }else if (floor=='4'){
-                bgImage = "img/floor2.png";
+            if (floor == '1') {
+              bgImage = "img/bangongqv.png";
+            }else if (floor=='2'){
+                bgImage = "img/huiyishi.png";
 
-            }else if (floor == '5'){
-                bgImage = "img/floor3.png";
-            }else {
-                bgImage = "img/floor3.png";
-
+            }else if (floor == '3'){
+              bgImage = "img/zhanting.png";
             }
             var con = json.container;
             if (con) {
@@ -122,17 +119,14 @@ function initContainerByToken(token, house_id) {
         success: function (json) {
             // setPlan1Data(json);
             var bgImage = "";
-            if (floor == '3') {
-                bgImage = "img/zhanting.png";
-            }else if (floor=='4'){
-                bgImage = "img/floor2.png";
+        if (floor == '1') {
+                     bgImage = "img/bangongqv.png";
+                   }else if (floor=='2'){
+                       bgImage = "img/huiyishi.png";
 
-            }else if (floor == '5'){
-                bgImage = "img/floor3.png";
-            }else {
-                bgImage = "img/floor3.png";
-
-            }
+                   }else if (floor == '3'){
+                     bgImage = "img/zhanting.png";
+                   }
             var con = json.container;
             if (con) {
                 var width = 1080;

@@ -49,7 +49,6 @@ class SmartControlFragment : BasedFragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<FragmentControlBinding>(inflater, R.layout.fragment_control, container, false)
         return binding!!.root
-
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -75,15 +74,15 @@ class SmartControlFragment : BasedFragment() {
         datas.add(area1)
 
         var area2  = MyArea()
-        area2.id="3"
+        area2.id="2"
         area2.name="会议室"
         area2.imgResId =R.drawable.huiyishi
 
         datas.add(area2)
 
         var area3  = MyArea()
-        area3.id="3"
-        area3.name="员工区"
+        area3.id="1"
+        area3.name="办公大厅"
         area3.imgResId =R.drawable.yuangong
 
         datas.add(area3)

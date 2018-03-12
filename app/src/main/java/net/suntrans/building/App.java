@@ -31,7 +31,6 @@ public class App extends MultiDexApplication {
     }
 
     private static Application application;
-
     private static SharedPreferences sharedPreferences;
 
     @Override

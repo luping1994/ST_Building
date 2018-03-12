@@ -40,12 +40,12 @@ class MainActivity : BasedActivity() {
         val logoPadding = metric.widthPixels / 35
         binding!!.logo.setPadding(logoPadding, logoPadding, logoPadding, logoPadding)
 
-        var s: Long = Runtime.getRuntime().maxMemory()
-        s = s / 1024 / 1024
-        println("$s mb")
+//        var s: Long = Runtime.getRuntime().maxMemory()
+//        s = s / 1024 / 1024
+//        println("$s mb")
 
-        if (DEBUG)
-            PgyUpdateManager.register(this, "net.suntrans.building.fileProvider")
+        if (!DEBUG)
+            PgyUpdateManager.register(this, Config.FILE_PROVIDER)
     }
 
     private fun setTabAndViewpager() {

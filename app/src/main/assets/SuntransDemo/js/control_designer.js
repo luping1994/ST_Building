@@ -80,7 +80,7 @@ function switchChannel(vtype, status, channel_id) {
 }
 
 function parseMessage(json) {
-    init(tokens,house_ids);
+
 
     control.alert(JSON.stringify(json))
 

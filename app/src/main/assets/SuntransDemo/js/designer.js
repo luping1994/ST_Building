@@ -61,7 +61,7 @@ function init(token, house_id) {
     floor = house_id;
     //加载容器属性和元件
     initContainerByToken(tokens, floor);
-    setInterval("refreshContainerByToken(tokens,house_ids)", 8000);
+    setInterval("refreshContainerByToken(tokens,house_ids)", 3000);
 }
 
 

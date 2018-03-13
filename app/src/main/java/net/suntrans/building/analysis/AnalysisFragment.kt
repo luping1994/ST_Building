@@ -62,6 +62,7 @@ class AnalysisFragment : BasedFragment(){
         initChart1()
         initChart2()
 
+        AnalysisFragmentHeper.initChart(binding,mTfLight)
         //
 
 //        setUpWebview(binding!!.webView)
@@ -161,14 +162,14 @@ class AnalysisFragment : BasedFragment(){
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT)
         l.setOrientation(Legend.LegendOrientation.VERTICAL)
         l.setDrawInside(false)
-        l.setXEntrySpace(7f)
+        l.setXEntrySpace(20f)
         l.setYEntrySpace(0f)
         l.setYOffset(0f)
 
         // entry label styling
         binding!!.chart2.setEntryLabelColor(Color.WHITE)
         binding!!.chart2.setEntryLabelTypeface(mTfRegular)
-        binding!!.chart2.setEntryLabelTextSize(12f)
+        binding!!.chart2.setEntryLabelTextSize(30f)
     }
 
     private fun initChart1() {
@@ -206,7 +207,7 @@ class AnalysisFragment : BasedFragment(){
         // modify the legend ...
         l.form = Legend.LegendForm.LINE
         l.typeface = mTfLight
-        l.textSize = 11f
+        l.textSize = 30f
         l.textColor = Color.WHITE
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
@@ -216,7 +217,7 @@ class AnalysisFragment : BasedFragment(){
 
         val xAxis = binding!!.chart1.getXAxis()
         xAxis.typeface = mTfLight
-        xAxis.textSize = 11f
+        xAxis.textSize = 30f
         xAxis.textColor = Color.BLACK
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
@@ -227,12 +228,15 @@ class AnalysisFragment : BasedFragment(){
         leftAxis.textColor = ColorTemplate.getHoloBlue()
         leftAxis.axisMaximum = 200f
         leftAxis.axisMinimum = 0f
+        leftAxis.textSize = 30f
         leftAxis.setDrawGridLines(true)
         leftAxis.isGranularityEnabled = true
 
         val rightAxis = binding!!.chart1.axisRight
         rightAxis.typeface = mTfLight
         rightAxis.textColor = Color.RED
+        rightAxis.textSize = 30f
+
         rightAxis.axisMaximum = 40f
         rightAxis.axisMinimum = -10f
         rightAxis.setDrawGridLines(false)
@@ -281,7 +285,7 @@ class AnalysisFragment : BasedFragment(){
 
         val data = PieData(dataSet)
         data.setValueFormatter(PercentFormatter())
-        data.setValueTextSize(11f)
+        data.setValueTextSize(30f)
         data.setValueTextColor(Color.WHITE)
         data.setValueTypeface(mTfLight)
         binding!!.chart2.setData(data)

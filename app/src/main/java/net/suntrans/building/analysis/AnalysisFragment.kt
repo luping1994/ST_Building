@@ -20,10 +20,22 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import net.suntrans.building.BasedFragment
 import net.suntrans.building.R
+import net.suntrans.building.api.Api
+import net.suntrans.building.api.RetrofitHelper
+import net.suntrans.building.chart.MyMarkerView
+import net.suntrans.building.chart.WeekDataxAxisValueFormatter
 import net.suntrans.building.databinding.FragmentAnalysisBinding
+import net.suntrans.building.domin.CurrengHisData
+import net.suntrans.building.domin.PowerHisData
+import net.suntrans.building.domin.VolHisData
+import net.suntrans.building.domin.WeekData
 import java.util.ArrayList
 
 /**
@@ -31,11 +43,11 @@ import java.util.ArrayList
  * Des:分析片段
  */
 
-class AnalysisFragment : BasedFragment(){
+class AnalysisFragment : BasedFragment() {
 
-    protected var mTfRegular: Typeface?=null
-    protected var mTfLight: Typeface?=null
-    var binding:FragmentAnalysisBinding? = null
+    protected var mTfRegular: Typeface? = null
+    protected var mTfLight: Typeface? = null
+    var binding: FragmentAnalysisBinding? = null
 
     private var itemHeight: Int = 0
     private var itemWidth: Int = 0
@@ -62,7 +74,13 @@ class AnalysisFragment : BasedFragment(){
         initChart1()
         initChart2()
 
-        AnalysisFragmentHeper.initChart(binding,mTfLight)
+        AnalysisFragmentHeper.initChart(binding, mTfLight)
+
+        getChart3Data()
+        getChart4Data()
+        getChart5Data()
+        getChart6Data()
+
         //
 
 //        setUpWebview(binding!!.webView)
@@ -95,6 +113,7 @@ class AnalysisFragment : BasedFragment(){
 
 
     }
+
     override fun onDestroy() {
         super.onDestroy()
     }
@@ -170,6 +189,8 @@ class AnalysisFragment : BasedFragment(){
         binding!!.chart2.setEntryLabelColor(Color.WHITE)
         binding!!.chart2.setEntryLabelTypeface(mTfRegular)
         binding!!.chart2.setEntryLabelTextSize(5f)
+
+
     }
 
     private fun initChart1() {
@@ -197,7 +218,7 @@ class AnalysisFragment : BasedFragment(){
         binding!!.chart1.setBackgroundColor(Color.LTGRAY)
 
         // add data
-        setData(24, 5f)
+//        setData(24, 5f)
 
         binding!!.chart1.animateX(2500)
 
@@ -295,7 +316,22 @@ class AnalysisFragment : BasedFragment(){
 
         binding!!.chart2.invalidate()
     }
-    private fun setData(count: Int, range: Float) {
+
+
+    private fun generateCenterSpannableText(): SpannableString {
+
+        val s = SpannableString("昨日能耗分布图(kW·h)")
+        s.setSpan(RelativeSizeSpan(1.7f), 0, 7, 0)
+//        s.setSpan(StyleSpan(Typeface.NORMAL), 14, s.length - 15, 0)
+//        s.setSpan(ForegroundColorSpan(Color.GRAY), 14, s.length - 15, 0)
+//        s.setSpan(RelativeSizeSpan(.8f), 14, s.length - 15, 0)
+//        s.setSpan(StyleSpan(Typeface.ITALIC), s.length - 14, s.length, 0)
+        s.setSpan(ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length - 7, s.length, 0)
+        return s
+    }
+
+
+    private fun setData1(count: Int, range: Float, it: WeekData?) {
 
         val yVals1 = ArrayList<Entry>()
 
@@ -391,16 +427,440 @@ class AnalysisFragment : BasedFragment(){
         }
     }
 
-    private fun generateCenterSpannableText(): SpannableString {
+    private val api: Api = RetrofitHelper.getApi()
 
-        val s = SpannableString("昨日能耗分布图(kW·h)")
-        s.setSpan(RelativeSizeSpan(1.7f), 0, 7, 0)
-//        s.setSpan(StyleSpan(Typeface.NORMAL), 14, s.length - 15, 0)
-//        s.setSpan(ForegroundColorSpan(Color.GRAY), 14, s.length - 15, 0)
-//        s.setSpan(RelativeSizeSpan(.8f), 14, s.length - 15, 0)
-//        s.setSpan(StyleSpan(Typeface.ITALIC), s.length - 14, s.length, 0)
-        s.setSpan(ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length - 7, s.length, 0)
-        return s
+
+    //周用电曲线
+    private fun getChart3Data() {
+        api.weekEle
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData3(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+    }
+
+    //24小时电压曲线
+    private fun getChart4Data() {
+        api.vol
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData4(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+
+    }
+
+    private fun getChart5Data() {
+        api.current
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData5(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+
+    }
+
+    private fun getChart6Data() {
+        api.power
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData6(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+
+    }
+
+    private fun setData3(it: WeekData?) {
+
+        val yVals1 = ArrayList<BarEntry>()
+        val xValues = ArrayList<String>()
+
+
+        for (i in it!!.data.indices) {
+            var `val` = 0f
+            xValues.add(it!!.data[i].title)
+            `val` = it!!.data[i].eletricity.toFloat()
+            yVals1.add(BarEntry(i.toFloat(), `val`))
+        }
+
+
+        val mv = MyMarkerView(activity, R.layout.custom_marker_view)
+        mv.setChartView(binding!!.chart3) // For bounds control
+        binding!!.chart3.setMarker(mv)
+
+        var xFormatter = WeekDataxAxisValueFormatter(xValues)
+
+        binding!!.chart3.xAxis.setValueFormatter(xFormatter)
+
+        val set1: BarDataSet
+
+        if (binding!!.chart3.getData() != null && binding!!.chart3.getData().getDataSetCount() > 0) {
+            set1 = binding!!.chart3.getData().getDataSetByIndex(0) as BarDataSet
+            set1.values = yVals1
+            binding!!.chart3.getData().notifyDataChanged()
+            binding!!.chart3.notifyDataSetChanged()
+        } else {
+            set1 = BarDataSet(yVals1, "")
+            set1.setColors(*AnalysisFragmentHeper.MATERIAL_COLORS)
+            set1.setDrawValues(false)
+            val dataSets = ArrayList<IBarDataSet>()
+            dataSets.add(set1)
+
+            val data = BarData(dataSets)
+            data.setValueTextSize(2f)
+            data.setValueTypeface(mTfLight)
+            data.barWidth = 0.8f
+
+            binding!!.chart3.setData(data)
+        }
+        binding!!.chart3.invalidate()
+    }
+
+    private fun setData4(it: VolHisData) {
+
+        val list = it.data
+
+        var xAxisValueU = ArrayList<String>()
+
+
+        val yVals1 = ArrayList<Entry>()
+        val yVals2 = ArrayList<Entry>()
+        val yVals3 = ArrayList<Entry>()
+
+
+
+        for (i in list.indices) {
+            val av = list[i].VolA.toFloat()
+            yVals1.add(Entry(i.toFloat(), av))
+
+
+            val bv = list[i].VolB.toFloat()
+            yVals2.add(Entry(i.toFloat(), bv))
+
+
+            val cv = list[i].VolC.toFloat()
+            yVals3.add(Entry(i.toFloat(), cv))
+
+            xAxisValueU.add(list[i].created_at.substring(11, 13) + "时")
+
+        }
+
+        val mv = MyMarkerView(activity, R.layout.custom_marker_view)
+        mv.setChartView(binding!!.chart4) // For bounds control
+        binding!!.chart4.setMarker(mv)
+
+        //设置X轴valueFormatter
+        var xFormatter = WeekDataxAxisValueFormatter(xAxisValueU)
+        binding!!.chart4.xAxis.setValueFormatter(xFormatter)
+
+        val set1: LineDataSet
+        val set2: LineDataSet
+        val set3: LineDataSet
+
+        if (binding!!.chart4.getData() != null && binding!!.chart4.getData().getDataSetCount() > 0) {
+            set1 = binding!!.chart4.data.getDataSetByIndex(0) as LineDataSet
+            set2 = binding!!.chart4.getData().getDataSetByIndex(1) as LineDataSet
+            set3 = binding!!.chart4.getData().getDataSetByIndex(2) as LineDataSet
+            set1.values = yVals1
+            set2.values = yVals2
+            set3.values = yVals3
+            binding!!.chart4.getData().notifyDataChanged()
+            binding!!.chart4.notifyDataSetChanged()
+        } else {
+            // create a dataset and give it a type
+            set1 = LineDataSet(yVals1, "A相电压")
+
+            set1.color = ColorTemplate.getHoloBlue()
+            set1.setCircleColor(Color.WHITE)
+            set1.lineWidth = 2f
+            set1.circleRadius = 3f
+            set1.fillAlpha = 65
+            set1.fillColor = ColorTemplate.getHoloBlue()
+            set1.highLightColor = Color.rgb(244, 117, 117)
+            set1.setDrawCircleHole(false)
+            set1.setDrawValues(false)
+            //set1.setFillFormatter(new MyFillFormatter(0f));
+            //set1.setDrawHorizontalHighlightIndicator(false);
+            //set1.setVisible(false);
+            //set1.setCircleHoleColor(Color.WHITE);
+
+            // create a dataset and give it a type
+            set2 = LineDataSet(yVals2, "B相电压")
+            set2.color = Color.RED
+            set2.setCircleColor(Color.WHITE)
+            set2.lineWidth = 2f
+            set2.circleRadius = 3f
+            set2.fillAlpha = 65
+            set2.fillColor = Color.RED
+            set2.setDrawCircleHole(false)
+            set2.setDrawValues(false)
+
+            set2.highLightColor = Color.rgb(244, 117, 117)
+            //set2.setFillFormatter(new MyFillFormatter(900f));
+
+            set3 = LineDataSet(yVals3, "C相电压")
+            set3.color = Color.YELLOW
+            set3.setCircleColor(Color.WHITE)
+            set3.lineWidth = 2f
+            set3.circleRadius = 3f
+            set3.fillAlpha = 65
+            set3.fillColor = ColorTemplate.colorWithAlpha(Color.YELLOW, 200)
+            set3.setDrawCircleHole(false)
+            set3.highLightColor = Color.rgb(244, 117, 117)
+            set3.setDrawValues(false)
+
+            // create a data object with the datasets
+            val data = LineData(set1, set2, set3)
+            data.setValueTextColor(Color.WHITE)
+            data.setValueTextSize(9f)
+
+            // set data
+            binding!!.chart4.setData(data)
+            binding!!.chart4.invalidate()
+
+        }
+    }
+
+
+    private fun setData5(it: CurrengHisData) {
+
+        val list = it.data
+
+        var xAxisValueU = ArrayList<String>()
+
+
+        val yVals1 = ArrayList<Entry>()
+        val yVals2 = ArrayList<Entry>()
+        val yVals3 = ArrayList<Entry>()
+
+
+
+        for (i in list.indices) {
+            val av = list[i].IA.toFloat()
+            yVals1.add(Entry(i.toFloat(), av))
+
+
+            val bv = list[i].IB.toFloat()
+            yVals2.add(Entry(i.toFloat(), bv))
+
+
+            val cv = list[i].IC.toFloat()
+            yVals3.add(Entry(i.toFloat(), cv))
+
+            xAxisValueU.add(list[i].created_at.substring(11, 13) + "时")
+
+        }
+
+        val mv = MyMarkerView(activity, R.layout.custom_marker_view)
+        mv.setChartView(binding!!.chart5) // For bounds control
+        binding!!.chart5.setMarker(mv)
+
+        //设置X轴valueFormatter
+        var xFormatter = WeekDataxAxisValueFormatter(xAxisValueU)
+        binding!!.chart5.xAxis.setValueFormatter(xFormatter)
+
+        val set1: LineDataSet
+        val set2: LineDataSet
+        val set3: LineDataSet
+
+        if (binding!!.chart5.getData() != null && binding!!.chart5.getData().getDataSetCount() > 0) {
+            set1 = binding!!.chart5.data.getDataSetByIndex(0) as LineDataSet
+            set2 = binding!!.chart5.getData().getDataSetByIndex(1) as LineDataSet
+            set3 = binding!!.chart5.getData().getDataSetByIndex(2) as LineDataSet
+            set1.values = yVals1
+            set2.values = yVals2
+            set3.values = yVals3
+            binding!!.chart5.getData().notifyDataChanged()
+            binding!!.chart5.notifyDataSetChanged()
+        } else {
+            // create a dataset and give it a type
+            set1 = LineDataSet(yVals1, "A相电流")
+
+            set1.axisDependency = YAxis.AxisDependency.LEFT
+            set1.color = ColorTemplate.getHoloBlue()
+            set1.setCircleColor(Color.WHITE)
+            set1.lineWidth = 2f
+            set1.circleRadius = 3f
+            set1.fillAlpha = 65
+            set1.fillColor = ColorTemplate.getHoloBlue()
+            set1.highLightColor = Color.rgb(244, 117, 117)
+            set1.setDrawCircleHole(false)
+            set1.setDrawValues(false)
+            //set1.setFillFormatter(new MyFillFormatter(0f));
+            //set1.setDrawHorizontalHighlightIndicator(false);
+            //set1.setVisible(false);
+            //set1.setCircleHoleColor(Color.WHITE);
+
+            // create a dataset and give it a type
+            set2 = LineDataSet(yVals2, "B相电流")
+            set2.axisDependency = YAxis.AxisDependency.LEFT
+            set2.color = Color.RED
+            set2.setCircleColor(Color.WHITE)
+            set2.lineWidth = 2f
+            set2.circleRadius = 3f
+            set2.fillAlpha = 65
+            set2.fillColor = Color.RED
+            set2.setDrawCircleHole(false)
+            set2.setDrawValues(false)
+
+            set2.highLightColor = Color.rgb(244, 117, 117)
+            //set2.setFillFormatter(new MyFillFormatter(900f));
+
+            set3 = LineDataSet(yVals3, "C相电流")
+            set3.axisDependency = YAxis.AxisDependency.LEFT
+            set3.color = Color.YELLOW
+            set3.setCircleColor(Color.WHITE)
+            set3.lineWidth = 2f
+            set3.circleRadius = 3f
+            set3.fillAlpha = 65
+            set3.fillColor = ColorTemplate.colorWithAlpha(Color.YELLOW, 200)
+            set3.setDrawCircleHole(false)
+            set3.highLightColor = Color.rgb(244, 117, 117)
+            set3.setDrawValues(false)
+
+            // create a data object with the datasets
+            val data = LineData(set1, set2, set3)
+            data.setValueTextColor(Color.WHITE)
+            data.setValueTextSize(9f)
+
+            // set data
+            binding!!.chart5.setData(data)
+            binding!!.chart5.invalidate()
+
+        }
+    }
+
+    private fun setData6(it: PowerHisData) {
+
+        val list = it.data
+
+        var xAxisValueU = ArrayList<String>()
+
+
+        val yVals1 = ArrayList<Entry>()
+        val yVals2 = ArrayList<Entry>()
+        val yVals3 = ArrayList<Entry>()
+
+
+
+        for (i in list.indices) {
+            val av = list[i].ActivePowerA.toFloat()
+            yVals1.add(Entry(i.toFloat(), av))
+
+
+            val bv = list[i].ActivePowerB.toFloat()
+            yVals2.add(Entry(i.toFloat(), bv))
+
+
+            val cv = list[i].ActivePowerC.toFloat()
+            yVals3.add(Entry(i.toFloat(), cv))
+
+            xAxisValueU.add(list[i].created_at.substring(11, 13) + "时")
+
+        }
+
+        val mv = MyMarkerView(activity, R.layout.custom_marker_view)
+        mv.setChartView(binding!!.chart6) // For bounds control
+        binding!!.chart6.setMarker(mv)
+
+        //设置X轴valueFormatter
+        var xFormatter = WeekDataxAxisValueFormatter(xAxisValueU)
+        binding!!.chart6.xAxis.setValueFormatter(xFormatter)
+
+        val set1: LineDataSet
+        val set2: LineDataSet
+        val set3: LineDataSet
+
+        if (binding!!.chart6.getData() != null && binding!!.chart6.getData().getDataSetCount() > 0) {
+            set1 = binding!!.chart6.data.getDataSetByIndex(0) as LineDataSet
+            set2 = binding!!.chart6.getData().getDataSetByIndex(1) as LineDataSet
+            set3 = binding!!.chart6.getData().getDataSetByIndex(2) as LineDataSet
+            set1.values = yVals1
+            set2.values = yVals2
+            set3.values = yVals3
+            binding!!.chart6.getData().notifyDataChanged()
+            binding!!.chart6.notifyDataSetChanged()
+        } else {
+            // create a dataset and give it a type
+            set1 = LineDataSet(yVals1, "A相功率")
+
+            set1.axisDependency = YAxis.AxisDependency.LEFT
+            set1.color = ColorTemplate.getHoloBlue()
+            set1.setCircleColor(Color.WHITE)
+            set1.lineWidth = 2f
+            set1.circleRadius = 3f
+            set1.fillAlpha = 65
+            set1.fillColor = ColorTemplate.getHoloBlue()
+            set1.highLightColor = Color.rgb(244, 117, 117)
+            set1.setDrawCircleHole(false)
+            set1.setDrawValues(false)
+            //set1.setFillFormatter(new MyFillFormatter(0f));
+            //set1.setDrawHorizontalHighlightIndicator(false);
+            //set1.setVisible(false);
+            //set1.setCircleHoleColor(Color.WHITE);
+
+            // create a dataset and give it a type
+            set2 = LineDataSet(yVals2, "B相功率")
+            set2.axisDependency = YAxis.AxisDependency.LEFT
+            set2.color = Color.RED
+            set2.setCircleColor(Color.WHITE)
+            set2.lineWidth = 2f
+            set2.circleRadius = 3f
+            set2.fillAlpha = 65
+            set2.fillColor = Color.RED
+            set2.setDrawCircleHole(false)
+            set2.setDrawValues(false)
+
+            set2.highLightColor = Color.rgb(244, 117, 117)
+            //set2.setFillFormatter(new MyFillFormatter(900f));
+
+            set3 = LineDataSet(yVals3, "C相功率")
+            set3.axisDependency = YAxis.AxisDependency.LEFT
+            set3.color = Color.YELLOW
+            set3.setCircleColor(Color.WHITE)
+            set3.lineWidth = 2f
+            set3.circleRadius = 3f
+            set3.fillAlpha = 65
+            set3.fillColor = ColorTemplate.colorWithAlpha(Color.YELLOW, 200)
+            set3.setDrawCircleHole(false)
+            set3.highLightColor = Color.rgb(244, 117, 117)
+            set3.setDrawValues(false)
+
+            // create a data object with the datasets
+            val data = LineData(set1, set2, set3)
+            data.setValueTextColor(Color.WHITE)
+            data.setValueTextSize(9f)
+
+            // set data
+            binding!!.chart6.setData(data)
+
+            binding!!.chart6.invalidate()
+        }
     }
 
 }

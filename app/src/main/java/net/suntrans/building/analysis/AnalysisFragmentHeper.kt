@@ -51,7 +51,7 @@ object AnalysisFragmentHeper {
         xAxis.setDrawGridLines(false)
         xAxis.setGranularity(1f) // only intervals of 1 day
         xAxis.setLabelCount(12)
-        xAxis.textSize = 30f
+        xAxis.textSize = 5f
 
 //        xAxis.setValueFormatter(xAxisFormatter);
 //        val custom = MyAxisValueFormatter()
@@ -59,7 +59,7 @@ object AnalysisFragmentHeper {
         val leftAxis = binding!!.chart3.getAxisLeft()
         leftAxis.setTypeface(mTfLight)
         leftAxis.setLabelCount(8, false)
-        leftAxis.textSize = 30f
+        leftAxis.textSize = 5f
 //        leftAxis.setValueFormatter(custom)
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         leftAxis.setSpaceTop(15f)
@@ -81,7 +81,7 @@ object AnalysisFragmentHeper {
         l.setDrawInside(false)
         l.setForm(Legend.LegendForm.SQUARE)
         l.setFormSize(9f)
-        l.setTextSize(30f)
+        l.setTextSize(5f)
         l.setXEntrySpace(4f)
 
         setData3(binding,mTfLight)
@@ -115,7 +115,7 @@ object AnalysisFragmentHeper {
             dataSets.add(set1)
 
             val data = BarData(dataSets)
-            data.setValueTextSize(10f)
+            data.setValueTextSize(2f)
             data.setValueTypeface(mTfLight)
             data.barWidth = 0.8f
 
@@ -149,7 +149,7 @@ object AnalysisFragmentHeper {
         binding!!.chart4.setBackgroundColor(Color.LTGRAY)
 
         // add data
-        setData(24, 30f, binding)
+        setData(24, 5f, binding)
 
         binding!!.chart4.animateX(2500)
 
@@ -159,17 +159,17 @@ object AnalysisFragmentHeper {
         // modify the legend ...
         l.form = Legend.LegendForm.LINE
         l.typeface = mTfLight
-        l.textSize = 30f
+        l.textSize = 5f
         l.textColor = Color.WHITE
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
         l.orientation = Legend.LegendOrientation.HORIZONTAL
         l.setDrawInside(false)
-//        l.setYOffset(11f);
+//        l.setYOffset(5f);
 
         val xAxis = binding!!.chart4.getXAxis()
         xAxis.typeface = mTfLight
-        xAxis.textSize = 30f
+        xAxis.textSize = 5f
         xAxis.textColor = Color.BLACK
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
@@ -180,17 +180,17 @@ object AnalysisFragmentHeper {
         leftAxis.textColor = ColorTemplate.getHoloBlue()
         leftAxis.axisMaximum = 200f
         leftAxis.axisMinimum = 0f
-        leftAxis.textSize = 30f
+        leftAxis.textSize = 5f
         leftAxis.setDrawGridLines(true)
         leftAxis.isGranularityEnabled = true
 
         val rightAxis = binding!!.chart4.axisRight
         rightAxis.typeface = mTfLight
         rightAxis.textColor = Color.RED
-        rightAxis.textSize = 30f
+        rightAxis.textSize = 5f
 
         rightAxis.axisMaximum = 40f
-        rightAxis.axisMinimum = -10f
+        rightAxis.axisMinimum = -2f
         rightAxis.setDrawGridLines(false)
         rightAxis.setDrawZeroLine(false)
         rightAxis.isGranularityEnabled = false
@@ -222,7 +222,7 @@ object AnalysisFragmentHeper {
         binding!!.chart5.setBackgroundColor(Color.LTGRAY)
 
         // add data
-        setData5(24, 30f, binding)
+        setData5(24, 5f, binding)
 
         binding!!.chart5.animateX(2500)
 
@@ -232,17 +232,17 @@ object AnalysisFragmentHeper {
         // modify the legend ...
         l.form = Legend.LegendForm.LINE
         l.typeface = mTfLight
-        l.textSize = 30f
+        l.textSize = 5f
         l.textColor = Color.WHITE
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
         l.orientation = Legend.LegendOrientation.HORIZONTAL
         l.setDrawInside(false)
-//        l.setYOffset(11f);
+//        l.setYOffset(5f);
 
         val xAxis = binding!!.chart5.getXAxis()
         xAxis.typeface = mTfLight
-        xAxis.textSize = 30f
+        xAxis.textSize = 5f
         xAxis.textColor = Color.BLACK
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
@@ -253,17 +253,17 @@ object AnalysisFragmentHeper {
         leftAxis.textColor = ColorTemplate.getHoloBlue()
         leftAxis.axisMaximum = 200f
         leftAxis.axisMinimum = 0f
-        leftAxis.textSize = 30f
+        leftAxis.textSize = 5f
         leftAxis.setDrawGridLines(true)
         leftAxis.isGranularityEnabled = true
 
         val rightAxis = binding!!.chart5.axisRight
         rightAxis.typeface = mTfLight
         rightAxis.textColor = Color.RED
-        rightAxis.textSize = 30f
+        rightAxis.textSize = 5f
 
         rightAxis.axisMaximum = 40f
-        rightAxis.axisMinimum = -10f
+        rightAxis.axisMinimum = -2f
         rightAxis.setDrawGridLines(false)
         rightAxis.setDrawZeroLine(false)
         rightAxis.isGranularityEnabled = false
@@ -295,7 +295,7 @@ object AnalysisFragmentHeper {
         binding!!.chart6.setBackgroundColor(Color.LTGRAY)
 
         // add data
-        setData6(24, 30f, binding)
+        setData6(24, 5f, binding)
 
         binding!!.chart6.animateX(2500)
 
@@ -305,17 +305,17 @@ object AnalysisFragmentHeper {
         // modify the legend ...
         l.form = Legend.LegendForm.LINE
         l.typeface = mTfLight
-        l.textSize = 30f
+        l.textSize = 5f
         l.textColor = Color.WHITE
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
         l.orientation = Legend.LegendOrientation.HORIZONTAL
         l.setDrawInside(false)
-//        l.setYOffset(11f);
+//        l.setYOffset(5f);
 
         val xAxis = binding!!.chart6.getXAxis()
         xAxis.typeface = mTfLight
-        xAxis.textSize = 30f
+        xAxis.textSize = 5f
         xAxis.textColor = Color.BLACK
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
@@ -326,17 +326,17 @@ object AnalysisFragmentHeper {
         leftAxis.textColor = ColorTemplate.getHoloBlue()
         leftAxis.axisMaximum = 200f
         leftAxis.axisMinimum = 0f
-        leftAxis.textSize = 30f
+        leftAxis.textSize = 5f
         leftAxis.setDrawGridLines(true)
         leftAxis.isGranularityEnabled = true
 
         val rightAxis = binding!!.chart6.axisRight
         rightAxis.typeface = mTfLight
         rightAxis.textColor = Color.RED
-        rightAxis.textSize = 30f
+        rightAxis.textSize = 5f
 
         rightAxis.axisMaximum = 40f
-        rightAxis.axisMinimum = -10f
+        rightAxis.axisMinimum = -2f
         rightAxis.setDrawGridLines(false)
         rightAxis.setDrawZeroLine(false)
         rightAxis.isGranularityEnabled = false

@@ -134,7 +134,7 @@ class AnalysisFragment : BasedFragment() {
         binding!!.chart2.dragDecelerationFrictionCoef = 0.95f
 
         binding!!.chart2.setCenterTextTypeface(mTfLight)
-        binding!!.chart2.centerText = generateCenterSpannableText()
+        binding!!.chart2.centerText = "能耗分布图"
 
         binding!!.chart2.isDrawHoleEnabled = true
         binding!!.chart2.setHoleColor(Color.WHITE)
@@ -175,7 +175,7 @@ class AnalysisFragment : BasedFragment() {
         // entry label styling
         binding!!.chart2.setEntryLabelColor(Color.WHITE)
         binding!!.chart2.setEntryLabelTypeface(mTfRegular)
-        binding!!.chart2.setEntryLabelTextSize(30f)
+        binding!!.chart2.setEntryLabelTextSize(5f)
     }
 
     private fun initChart1() {
@@ -203,7 +203,7 @@ class AnalysisFragment : BasedFragment() {
         binding!!.chart1.setBackgroundColor(Color.LTGRAY)
 
         // add data
-        setData(24, 30f)
+        setData(24, 5f)
 
         binding!!.chart1.animateX(2500)
 
@@ -213,17 +213,17 @@ class AnalysisFragment : BasedFragment() {
         // modify the legend ...
         l.form = Legend.LegendForm.LINE
         l.typeface = mTfLight
-        l.textSize = 30f
+        l.textSize = 5f
         l.textColor = Color.WHITE
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
         l.orientation = Legend.LegendOrientation.HORIZONTAL
         l.setDrawInside(false)
-//        l.setYOffset(11f);
+//        l.setYOffset(5f);
 
         val xAxis = binding!!.chart1.getXAxis()
         xAxis.typeface = mTfLight
-        xAxis.textSize = 30f
+        xAxis.textSize = 5f
         xAxis.textColor = Color.BLACK
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
@@ -234,14 +234,14 @@ class AnalysisFragment : BasedFragment() {
         leftAxis.textColor = ColorTemplate.getHoloBlue()
         leftAxis.axisMaximum = 200f
         leftAxis.axisMinimum = 0f
-        leftAxis.textSize = 30f
+        leftAxis.textSize = 5f
         leftAxis.setDrawGridLines(true)
         leftAxis.isGranularityEnabled = true
 
         val rightAxis = binding!!.chart1.axisRight
         rightAxis.typeface = mTfLight
         rightAxis.textColor = Color.RED
-        rightAxis.textSize = 30f
+        rightAxis.textSize = 5f
 
         rightAxis.axisMaximum = 40f
         rightAxis.axisMinimum = -10f
@@ -262,8 +262,8 @@ class AnalysisFragment : BasedFragment() {
         }
 
         val dataSet = PieDataSet(entries, "Election Results")
-        dataSet.sliceSpace = 3f
-        dataSet.selectionShift = 5f
+        dataSet.sliceSpace = 1f
+        dataSet.selectionShift = 1f
 
         // add a lot of colors
 
@@ -291,7 +291,7 @@ class AnalysisFragment : BasedFragment() {
 
         val data = PieData(dataSet)
         data.setValueFormatter(PercentFormatter())
-        data.setValueTextSize(30f)
+        data.setValueTextSize(5f)
         data.setValueTextColor(Color.WHITE)
         data.setValueTypeface(mTfLight)
         binding!!.chart2.setData(data)
@@ -349,8 +349,8 @@ class AnalysisFragment : BasedFragment() {
             set1.axisDependency = YAxis.AxisDependency.LEFT
             set1.color = ColorTemplate.getHoloBlue()
             set1.setCircleColor(Color.WHITE)
-            set1.lineWidth = 2f
-            set1.circleRadius = 3f
+            set1.lineWidth = 1f
+            set1.circleRadius = 1f
             set1.fillAlpha = 65
             set1.fillColor = ColorTemplate.getHoloBlue()
             set1.highLightColor = Color.rgb(244, 117, 117)
@@ -366,8 +366,8 @@ class AnalysisFragment : BasedFragment() {
             set2.axisDependency = YAxis.AxisDependency.LEFT
             set2.color = Color.RED
             set2.setCircleColor(Color.WHITE)
-            set2.lineWidth = 2f
-            set2.circleRadius = 3f
+            set2.lineWidth = 1f
+            set2.circleRadius = 1f
             set2.fillAlpha = 65
             set2.fillColor = Color.RED
             set2.setDrawCircleHole(false)
@@ -380,8 +380,8 @@ class AnalysisFragment : BasedFragment() {
             set3.axisDependency = YAxis.AxisDependency.LEFT
             set3.color = Color.YELLOW
             set3.setCircleColor(Color.WHITE)
-            set3.lineWidth = 2f
-            set3.circleRadius = 3f
+            set3.lineWidth = 1f
+            set3.circleRadius = 1f
             set3.fillAlpha = 65
             set3.fillColor = ColorTemplate.colorWithAlpha(Color.YELLOW, 200)
             set3.setDrawCircleHole(false)
@@ -391,7 +391,7 @@ class AnalysisFragment : BasedFragment() {
             // create a data object with the datasets
             val data = LineData(set1, set2, set3)
             data.setValueTextColor(Color.WHITE)
-            data.setValueTextSize(9f)
+            data.setValueTextSize(2f)
 
             // set data
             binding!!.chart1.setData(data)

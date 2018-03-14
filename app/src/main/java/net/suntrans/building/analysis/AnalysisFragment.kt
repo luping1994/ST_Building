@@ -21,8 +21,13 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import net.suntrans.building.BasedFragment
 import net.suntrans.building.R
+import net.suntrans.building.api.Api
+import net.suntrans.building.api.RetrofitHelper
 import net.suntrans.building.databinding.FragmentAnalysisBinding
 import java.util.ArrayList
 
@@ -31,11 +36,11 @@ import java.util.ArrayList
  * Des:分析片段
  */
 
-class AnalysisFragment : BasedFragment(){
+class AnalysisFragment : BasedFragment() {
 
-    protected var mTfRegular: Typeface?=null
-    protected var mTfLight: Typeface?=null
-    var binding:FragmentAnalysisBinding? = null
+    protected var mTfRegular: Typeface? = null
+    protected var mTfLight: Typeface? = null
+    var binding: FragmentAnalysisBinding? = null
 
     private var itemHeight: Int = 0
     private var itemWidth: Int = 0
@@ -61,8 +66,8 @@ class AnalysisFragment : BasedFragment(){
 
         initChart1()
         initChart2()
-
-        AnalysisFragmentHeper.initChart(binding,mTfLight)
+        getChart1Data()
+        AnalysisFragmentHeper.initChart(binding, mTfLight)
         //
 
 //        setUpWebview(binding!!.webView)
@@ -95,6 +100,7 @@ class AnalysisFragment : BasedFragment(){
 
 
     }
+
     override fun onDestroy() {
         super.onDestroy()
     }
@@ -295,6 +301,7 @@ class AnalysisFragment : BasedFragment(){
 
         binding!!.chart2.invalidate()
     }
+
     private fun setData(count: Int, range: Float) {
 
         val yVals1 = ArrayList<Entry>()
@@ -394,13 +401,27 @@ class AnalysisFragment : BasedFragment(){
     private fun generateCenterSpannableText(): SpannableString {
 
         val s = SpannableString("昨日能耗分布图(kW·h)")
-        s.setSpan(RelativeSizeSpan(1.7f), 0, 7, 0)
+        s.setSpan(RelativeSizeSpan(1.7f), 0, 8, 0)
 //        s.setSpan(StyleSpan(Typeface.NORMAL), 14, s.length - 15, 0)
 //        s.setSpan(ForegroundColorSpan(Color.GRAY), 14, s.length - 15, 0)
 //        s.setSpan(RelativeSizeSpan(.8f), 14, s.length - 15, 0)
 //        s.setSpan(StyleSpan(Typeface.ITALIC), s.length - 14, s.length, 0)
         s.setSpan(ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length - 7, s.length, 0)
         return s
+    }
+
+    private val api: Api = RetrofitHelper.getApi()
+
+    private fun getChart1Data() {
+
+        api.energy
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(Consumer {
+
+                }, Consumer {
+
+                })
     }
 
 }

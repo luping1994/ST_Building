@@ -63,7 +63,6 @@ object AnalysisFragmentHeper {
         xAxis.textSize = 5f
 
 
-
         val leftAxis = binding!!.chart3.getAxisLeft()
         leftAxis.setTypeface(mTfLight)
         leftAxis.setLabelCount(8, false)
@@ -96,6 +95,65 @@ object AnalysisFragmentHeper {
 
     }
 
+    private fun initchart7(binding: FragmentAnalysisBinding?, mTfLight: Typeface) {
+
+        binding!!.chart7.setDrawBarShadow(false)
+        binding!!.chart3.setDrawValueAboveBar(true)
+        binding!!.chart3.getAxisRight().setEnabled(false)
+        binding!!.chart3.setTouchEnabled(true)
+        binding!!.chart3.getDescription().setEnabled(false)
+        // if more than 60 entries are displayed in the chart, no values will be
+        // drawn
+        binding!!.chart3.setMaxVisibleValueCount(60)
+        binding!!.chart3.setBackgroundColor(Color.LTGRAY)
+
+        // scaling can now only be done on x- and y-axis separately
+        binding!!.chart3.setPinchZoom(true)
+        binding!!.chart3.setDrawGridBackground(false)
+        // binding!!.chart3.setDrawYLabels(false);
+
+//        val xAxisFormatter = DayAxisValueFormatter(binding!!.chart3, DayAxisValueFormatter.DAYS)
+
+        val xAxis = binding!!.chart3.getXAxis()
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
+        xAxis.setTypeface(mTfLight)
+        xAxis.setDrawGridLines(false)
+        xAxis.setGranularity(1f) // only intervals of 1 day
+        xAxis.setLabelCount(12)
+        xAxis.textSize = 5f
+
+
+        val leftAxis = binding!!.chart3.getAxisLeft()
+        leftAxis.setTypeface(mTfLight)
+        leftAxis.setLabelCount(8, false)
+        leftAxis.textSize = 5f
+//        leftAxis.setValueFormatter(custom)
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+        leftAxis.setSpaceTop(15f)
+        leftAxis.setAxisMinimum(0f) // this replaces setStartAtZero(true)
+//
+//        YAxis rightAxis = binding!!.chart3.getAxisRight();
+//        rightAxis.setDrawGridLines(false);
+//        rightAxis.setTypeface(mTfLight);
+//        rightAxis.setLabelCount(8, false);
+//        rightAxis.setValueFormatter(custom);
+//        rightAxis.setSpaceTop(15f);
+//        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+
+        val l = binding!!.chart3.getLegend()
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM)
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT)
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL)
+        l.setDrawInside(false)
+        l.setForm(Legend.LegendForm.SQUARE)
+        l.setFormSize(9f)
+        l.setTextSize(5f)
+        l.setXEntrySpace(4f)
+
+//        setData3(binding,mTfLight)
+
+    }
 
 
     private fun initchart4(binding: FragmentAnalysisBinding?, mTfLight: Typeface) {
@@ -155,6 +213,7 @@ object AnalysisFragmentHeper {
         leftAxis.setDrawGridLines(true)
         leftAxis.isGranularityEnabled = true
 
+        binding!!.chart4.axisRight.isEnabled = false
 
     }
 
@@ -176,6 +235,8 @@ object AnalysisFragmentHeper {
         binding!!.chart5.setDrawGridBackground(false)
         binding!!.chart5.setHighlightPerDragEnabled(true)
 
+
+        binding!!.chart5.axisRight.isEnabled = false
 
         // if disabled, scaling can be done on x- and y-axis separately
         binding!!.chart5.setPinchZoom(true)
@@ -286,12 +347,10 @@ object AnalysisFragmentHeper {
 //        rightAxis.setDrawGridLines(false)
 //        rightAxis.setDrawZeroLine(false)
 //        rightAxis.isGranularityEnabled = false
+        binding!!.chart4.axisRight.isEnabled = false
+
 
     }
-
-
-
-
 
 
     val MATERIAL_COLORS = intArrayOf(rgb("#cc7832"))

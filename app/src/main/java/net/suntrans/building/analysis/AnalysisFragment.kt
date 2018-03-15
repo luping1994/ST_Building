@@ -32,10 +32,7 @@ import net.suntrans.building.api.RetrofitHelper
 import net.suntrans.building.chart.MyMarkerView
 import net.suntrans.building.chart.WeekDataxAxisValueFormatter
 import net.suntrans.building.databinding.FragmentAnalysisBinding
-import net.suntrans.building.domin.CurrengHisData
-import net.suntrans.building.domin.PowerHisData
-import net.suntrans.building.domin.VolHisData
-import net.suntrans.building.domin.WeekData
+import net.suntrans.building.domin.*
 import java.util.ArrayList
 
 /**
@@ -331,32 +328,95 @@ class AnalysisFragment : BasedFragment() {
     }
 
 
-    private fun setData1(count: Int, range: Float, it: WeekData?) {
+
+
+    private val api: Api = RetrofitHelper.getApi()
+
+    //用电曲线
+    private fun getChart1Data() {
+        api.energy
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData1(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+    }
+    //周用电曲线
+    private fun getChart3Data() {
+        api.weekEle
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData3(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+    }
+
+    //24小时电压曲线
+    private fun getChart4Data() {
+        api.vol
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData4(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+
+    }
+
+    private fun getChart5Data() {
+        api.current
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData5(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+
+    }
+
+    private fun getChart6Data() {
+        api.power
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+
+                    setData6(it)
+
+                }, Consumer {
+
+                    it.printStackTrace()
+                })
+
+    }
+    private fun setData1(it: EnergyHisData?) {
 
         val yVals1 = ArrayList<Entry>()
-
-        for (i in 0 until count) {
-            val mult = range / 2f
-            val `val` = (Math.random() * mult).toFloat() + 50
-            yVals1.add(Entry(i.toFloat(), `val`))
-        }
-
         val yVals2 = ArrayList<Entry>()
-
-        for (i in 0 until count - 1) {
-            val `val` = (Math.random() * range).toFloat() + 70
-            yVals2.add(Entry(i.toFloat(), `val`))
-            //            if(i == 10) {
-            //                yVals2.add(new Entry(i, val + 50));
-            //            }
-        }
-
         val yVals3 = ArrayList<Entry>()
 
-        for (i in 0 until count) {
-            val `val` = (Math.random() * range).toFloat()
-            yVals3.add(Entry(i.toFloat(), `val`))
-        }
 
         val set1: LineDataSet
         val set2: LineDataSet
@@ -426,75 +486,6 @@ class AnalysisFragment : BasedFragment() {
             binding!!.chart1.setData(data)
         }
     }
-
-    private val api: Api = RetrofitHelper.getApi()
-
-
-    //周用电曲线
-    private fun getChart3Data() {
-        api.weekEle
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(Consumer {
-
-
-                    setData3(it)
-
-                }, Consumer {
-
-                    it.printStackTrace()
-                })
-    }
-
-    //24小时电压曲线
-    private fun getChart4Data() {
-        api.vol
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(Consumer {
-
-
-                    setData4(it)
-
-                }, Consumer {
-
-                    it.printStackTrace()
-                })
-
-    }
-
-    private fun getChart5Data() {
-        api.current
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(Consumer {
-
-
-                    setData5(it)
-
-                }, Consumer {
-
-                    it.printStackTrace()
-                })
-
-    }
-
-    private fun getChart6Data() {
-        api.power
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(Consumer {
-
-
-                    setData6(it)
-
-                }, Consumer {
-
-                    it.printStackTrace()
-                })
-
-    }
-
     private fun setData3(it: WeekData?) {
 
         val yVals1 = ArrayList<BarEntry>()

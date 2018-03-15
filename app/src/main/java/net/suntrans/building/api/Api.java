@@ -1,12 +1,13 @@
 package net.suntrans.building.api;
 
+import net.suntrans.building.domin.AreaData;
 import net.suntrans.building.domin.CameraHi;
 import net.suntrans.building.domin.CurrengHisData;
+import net.suntrans.building.domin.EnergyHisData;
 import net.suntrans.building.domin.LoginResult;
 import net.suntrans.building.domin.PowerHisData;
 import net.suntrans.building.domin.VolHisData;
 import net.suntrans.building.domin.WeekData;
-import net.suntrans.building.vedio.camhi.MyCamera;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public interface Api {
 
     //获取能耗
     @GET("chart/energy")
-    Flowable<WeekData> getEnergy();
+    Flowable<EnergyHisData> getEnergy();
 
     //获取24小时电压历史记录
     @GET("chart/vol")
@@ -63,6 +64,10 @@ public interface Api {
     //获取24小时电流历史记录
     @GET("chart/power")
     Flowable<PowerHisData> getPower();
+
+    //获取Pie
+    @GET("chart/power")
+    Flowable<AreaData> getAreaEnergy();
 
 
 }
